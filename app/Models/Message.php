@@ -14,25 +14,26 @@ class Message extends Model
         'sender_parent_id',
         'sender_agent_id',
         'receiver_parent_id',
-        'receiver_agent_id'
+        'receiver_agent_id',
+        'message'
     ];
 
-    public function parentSender():BelongsTo
+    public function senderParent():BelongsTo
     {
         return $this->belongsTo(Parents::class, 'sender_parent_id');
     }
 
-    public function agentSender():BelongsTo
+    public function senderAgent():BelongsTo
     {
-        return $this->belongsTo(Parents::class, 'sender_agent_id');
+        return $this->belongsTo(Agent::class, 'sender_agent_id');
     }
 
-    public function parentRecever():BelongsTo
+    public function receverParent():BelongsTo
     {
-        return $this->belongsTo(Agent::class, 'receiver_parent_id');
+        return $this->belongsTo(Parents::class, 'receiver_parent_id');
     }
 
-    public function agentRecever():BelongsTo
+    public function receverAgent():BelongsTo
     {
         return $this->belongsTo(Agent::class, 'receiver_agent_id');
     }
