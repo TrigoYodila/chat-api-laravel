@@ -20,7 +20,7 @@ class MessageSent
      */
     public $message;
 
-    public function __construct(Message $message)
+    public function __construct($message)
     {
         $this->message = $message;
     }
@@ -30,20 +30,30 @@ class MessageSent
      *
      * @return array<int, \Illuminate\Broadcasting\Channel>
      */
-    public function broadcastOn(): array
+    // public function broadcastOn(): array
+    // {
+    //     return [
+    //         new PrivateChannel('channel-name'),
+    //         new PrivateChannel('chat.' . ($this->message->receiver_agent_id ?? $this->message->receiver_parent_id)),
+    //     ];
+    // }
+
+    // public function broadcastWith()
+    // {
+    //     return [
+    //         'message' => $this->message->message,
+    //         'sender_id' => $this->message->sender_agent_id ?? $this->message->sender_parent_id,
+    //         'created_at' => $this->message->created_at,
+    //     ];
+    // }
+
+    public function broadcastOn()
     {
-        return [
-            // new PrivateChannel('channel-name'),
-            new PrivateChannel('chat.' . ($this->message->receiver_agent_id ?? $this->message->receiver_parent_id)),
-        ];
+        return new Channel('chat');
     }
 
-    public function broadcastWith()
+    public function broadcastAs()
     {
-        return [
-            'message' => $this->message->message,
-            'sender_id' => $this->message->sender_agent_id ?? $this->message->sender_parent_id,
-            'created_at' => $this->message->created_at,
-        ];
+        return 'message.sent';
     }
 }

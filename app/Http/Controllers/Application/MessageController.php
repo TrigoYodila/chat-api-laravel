@@ -23,7 +23,7 @@ class MessageController extends Controller
             ->get();
 
         if ($messages) {
-            return response()->json(['message' => 'Enregistrement avec succés', "assignations" => $messages], 200);
+            return response()->json(['msg' => 'Enregistrement avec succés', "messages" => $messages], 200);
         } else {
             return  response()->json(['message' => "une erreur est survenue."], 422);
         }
@@ -67,9 +67,14 @@ class MessageController extends Controller
             $message->save();
 
             //diffuse message to subscribed
+            // broadcast(new MessageSent($message))->toOthers();
+
+            // Envoyer l'événement à Pusher
             broadcast(new MessageSent($message))->toOthers();
 
-            return response()->json(['message' => 'Opération reussie.', "message" => $message], 201);
+            // event(new MessageSent('Hello world with Trigo'));
+
+            // return response()->json(['msg' => 'Opération reussie.', "message" => $message], 201);
         } else return response()->json(['message' => "Erreur d'insertion"], 422);
     }
 
